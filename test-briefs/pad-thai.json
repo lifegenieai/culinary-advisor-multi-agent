@@ -1,0 +1,13 @@
+{
+  "title": "Authentic Pad Thai",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["wok", "high heat burner"],
+    "skill": "intermediate",
+    "time": "45 minutes",
+    "servings": 2
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Street food style with homemade tamarind sauce, dried shrimp, and traditional garnishes. Focus on the balance of sweet, sour, salty, and umami flavors."
+}

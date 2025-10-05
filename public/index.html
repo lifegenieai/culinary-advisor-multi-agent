@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Orchestrator POC</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .primary-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .secondary-btn {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .secondary-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .example-btn {
+      padding: 10px;
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .example-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    #output {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 300px;
+      max-height: 600px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #667eea;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error {
+      color: #d32f2f;
+      background: #ffebee;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: #388e3c;
+      background: #e8f5e9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧑‍🍳 Recipe Orchestrator POC</h1>
+      <p class="subtitle">Multi-agent AI system powered by Google Gemini</p>
+    </header>
+
+    <div class="content">
+      <!-- Input Panel -->
+      <div class="panel">
+        <h2>Creative Brief</h2>
+
+        <div class="examples">
+          <button class="example-btn" onclick="loadExample('brioche')">🥖 Brioche</button>
+          <button class="example-btn" onclick="loadExample('roast-chicken')">🍗 Roast Chicken</button>
+          <button class="example-btn" onclick="loadExample('tonkotsu-ramen')">🍜 Ramen</button>
+          <button class="example-btn" onclick="loadExample('texas-brisket')">🔥 Texas Brisket</button>
+          <button class="example-btn" onclick="loadExample('chicken-tikka-masala')">🍛 Tikka Masala</button>
+          <button class="example-btn" onclick="loadExample('pad-thai')">🥢 Pad Thai</button>
+          <button class="example-btn" onclick="loadExample('thanksgiving-menu')">🦃 Thanksgiving</button>
+        </div>
+
+        <div class="form-group">
+          <label for="title">Recipe Title *</label>
+          <input type="text" id="title" placeholder="e.g., Classic French Brioche" required>
+        </div>
+
+        <div class="form-group">
+          <label for="scope">Scope *</label>
+          <select id="scope">
+            <option value="single_recipe">Single Recipe</option>
+            <option value="menu">Full Menu</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="creativeFocus">Creative Focus *</label>
+          <select id="creativeFocus">
+            <option value="traditional">Traditional</option>
+            <option value="modern">Modern</option>
+            <option value="fusion">Fusion</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="skill">Skill Level</label>
+          <select id="skill">
+            <option value="">Any</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="servings">Servings</label>
+          <input type="number" id="servings" placeholder="e.g., 4" min="1">
+        </div>
+
+        <div class="form-group">
+          <label for="time">Total Time</label>
+          <input type="text" id="time" placeholder="e.g., 2 hours">
+        </div>
+
+        <div class="form-group">
+          <label for="additionalContext">Additional Context</label>
+          <textarea id="additionalContext" placeholder="Any special requirements or preferences..."></textarea>
+        </div>
+
+        <div class="button-group">
+          <button class="primary-btn" id="generateBtn" onclick="generateRecipe()">
+            🎯 Generate Recipe
+          </button>
+          <button class="secondary-btn" onclick="clearForm()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">Generated Recipe</h2>
+          <button class="secondary-btn" id="copyBtn" onclick="copyRecipe()" style="display: none; flex: 0 0 auto; padding: 8px 16px;">
+            📋 Copy JSON
+          </button>
+        </div>
+        <div id="output">
+          <div style="color: #999; text-align: center; padding: 40px;">
+            Fill out the creative brief and click "Generate Recipe" to begin.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let lastGeneratedData = null;
+
+    async function loadExample(name) {
+      try {
+        const response = await fetch(`/test-briefs/${name}.json`);
+        const data = await response.json();
+
+        document.getElementById('title').value = data.title;
+        document.getElementById('scope').value = data.scope;
+        document.getElementById('creativeFocus').value = data.creativeFocus;
+        document.getElementById('skill').value = data.constraints?.skill || '';
+        document.getElementById('servings').value = data.constraints?.servings || '';
+        document.getElementById('time').value = data.constraints?.time || '';
+        document.getElementById('additionalContext').value = data.additionalContext || '';
+      } catch (error) {
+        console.error('Error loading example:', error);
+        alert(`Failed to load example: ${name}`);
+      }
+    }
+
+    function copyRecipe() {
+      if (lastGeneratedData) {
+        navigator.clipboard.writeText(JSON.stringify(lastGeneratedData, null, 2))
+          .then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copied!';
+            setTimeout(() => {
+              btn.innerHTML = originalText;
+            }, 2000);
+          })
+          .catch(err => {
+            alert('Failed to copy to clipboard');
+          });
+      }
+    }
+
+    async function generateRecipe() {
+      const title = document.getElementById('title').value;
+      const scope = document.getElementById('scope').value;
+      const creativeFocus = document.getElementById('creativeFocus').value;
+      const skill = document.getElementById('skill').value;
+      const servings = document.getElementById('servings').value;
+      const time = document.getElementById('time').value;
+      const additionalContext = document.getElementById('additionalContext').value;
+
+      if (!title) {
+        alert('Please enter a recipe title');
+        return;
+      }
+
+      const brief = {
+        title,
+        scope,
+        creativeFocus,
+        constraints: {},
+        additionalContext: additionalContext || undefined
+      };
+
+      if (skill) brief.constraints.skill = skill;
+      if (servings) brief.constraints.servings = parseInt(servings);
+      if (time) brief.constraints.time = time;
+
+      const output = document.getElementById('output');
+      const generateBtn = document.getElementById('generateBtn');
+
+      output.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>Generating recipe...</div>
+          <div style="margin-top: 10px; font-size: 12px; opacity: 0.7;">
+            This may take 30-60 seconds
+          </div>
+        </div>
+      `;
+
+      generateBtn.disabled = true;
+
+      try {
+        const response = await fetch('/api/generate-recipe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(brief)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Handle error with detailed Zod field errors if available
+          let errorMsg = data.error || 'Recipe generation failed';
+          if (data.fieldErrors) {
+            errorMsg += '\n\nValidation errors:\n';
+            for (const [field, errors] of Object.entries(data.fieldErrors)) {
+              errorMsg += `\n• ${field}: ${errors.join(', ')}`;
+            }
+          }
+          throw new Error(errorMsg);
+        }
+
+        // Store for copy function
+        lastGeneratedData = data;
+        document.getElementById('copyBtn').style.display = 'block';
+
+        // Format execution log for better readability
+        let executionSummary = '';
+        if (data.log) {
+          const duration = (data.log.totalDurationMs / 1000).toFixed(1);
+          const specialists = data.log.steps
+            .filter(s => s.action === 'specialist_contribution' && s.success)
+            .map(s => s.agent);
+
+          executionSummary = `
+<div class="success">
+  ✅ Recipe generated successfully!
+  <div style="margin-top: 10px; font-size: 12px;">
+    <strong>Duration:</strong> ${duration}s<br>
+    <strong>Specialists:</strong> ${specialists.join(', ')}<br>
+    <strong>Steps:</strong> ${data.log.steps.length}
+  </div>
+</div>
+
+<h3 style="margin-top: 20px;">Execution Log</h3>
+<pre style="background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; font-size: 11px;">${formatExecutionLog(data.log)}</pre>
+
+<h3 style="margin-top: 20px;">Complete Recipe JSON</h3>`;
+        } else {
+          executionSummary = '<div class="success">✅ Recipe generated successfully!</div>';
+        }
+
+        output.innerHTML = executionSummary +
+                          `<pre style="background: #f5f5f5; padding: 15px; border-radius: 6px;">${JSON.stringify(data.recipe, null, 2)}</pre>`;
+      } catch (error) {
+        output.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+        document.getElementById('copyBtn').style.display = 'none';
+      } finally {
+        generateBtn.disabled = false;
+      }
+    }
+
+    function formatExecutionLog(log) {
+      let output = '';
+      log.steps.forEach((step, i) => {
+        const duration = (step.durationMs / 1000).toFixed(2);
+        const time = new Date(step.timestamp).toLocaleTimeString();
+        const status = step.success ? '✓' : '✗';
+        const color = step.success ? '#50fa7b' : '#ff5555';
+
+        output += `<span style="color: #6272a4;">[${i + 1}]</span> `;
+        output += `<span style="color: ${color};">${status}</span> `;
+        output += `<span style="color: #8be9fd;">${step.agent}</span> `;
+        output += `<span style="color: #f1fa8c;">${step.action}</span> `;
+        output += `<span style="color: #6272a4;">(${duration}s at ${time})</span>`;
+        if (step.error) {
+          output += `\n    <span style="color: #ff5555;">Error: ${step.error}</span>`;
+        }
+        output += '\n';
+      });
+      return output;
+    }
+
+    function clearForm() {
+      document.getElementById('title').value = '';
+      document.getElementById('scope').value = 'single_recipe';
+      document.getElementById('creativeFocus').value = 'traditional';
+      document.getElementById('skill').value = '';
+      document.getElementById('servings').value = '';
+      document.getElementById('time').value = '';
+      document.getElementById('additionalContext').value = '';
+    }
+  </script>
+</body>
+</html>

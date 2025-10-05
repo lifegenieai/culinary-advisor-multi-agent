@@ -1,0 +1,13 @@
+{
+  "title": "Classic French Brioche",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["stand mixer", "9x5 inch loaf pan", "oven"],
+    "skill": "intermediate",
+    "time": "4-5 hours (including rise time)",
+    "servings": 8
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Focus on authentic French technique with rich, buttery flavor. Include detailed fermentation guidance."
+}

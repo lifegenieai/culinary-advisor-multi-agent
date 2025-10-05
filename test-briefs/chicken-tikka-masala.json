@@ -1,0 +1,13 @@
+{
+  "title": "Chicken Tikka Masala with Naan",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["grill or broiler", "large skillet", "cast iron skillet for naan"],
+    "skill": "intermediate",
+    "time": "2 hours (including marination)",
+    "servings": 4
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Restaurant-style British-Indian classic. Include marinated grilled chicken in creamy tomato sauce. Serve with homemade naan bread."
+}

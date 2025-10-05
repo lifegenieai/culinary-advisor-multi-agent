@@ -1,0 +1,13 @@
+{
+  "title": "Texas-Style Smoked Brisket",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["smoker or charcoal grill", "instant-read thermometer", "aluminum foil"],
+    "skill": "advanced",
+    "time": "12-14 hours",
+    "servings": 12
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Central Texas BBQ style. Low and slow smoke with simple rub. Focus on bark development and tender, juicy meat."
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Traditional Thanksgiving Dinner Menu",
+  "scope": "menu",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["oven", "stovetop"],
+    "skill": "advanced",
+    "time": "5 hours",
+    "servings": 8
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Complete Thanksgiving feast including roast turkey with gravy, classic bread stuffing, cranberry sauce, mashed potatoes, green bean casserole, and pumpkin pie. Focus on traditional American techniques and flavors."
+}

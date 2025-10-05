@@ -1,0 +1,13 @@
+{
+  "title": "Perfect Roast Chicken with Simple Salad",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["roasting pan", "oven", "instant-read thermometer"],
+    "skill": "beginner",
+    "time": "90 minutes",
+    "servings": 4
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Simple weeknight dinner. Crispy skin, juicy meat, classic technique. Include a light green salad as a side."
+}

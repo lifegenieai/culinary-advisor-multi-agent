@@ -1,0 +1,13 @@
+{
+  "title": "Tonkotsu Ramen",
+  "scope": "single_recipe",
+  "constraints": {
+    "dietary": [],
+    "equipment": ["large stockpot", "strainer", "wok or large skillet"],
+    "skill": "advanced",
+    "time": "12 hours (mostly unattended)",
+    "servings": 4
+  },
+  "creativeFocus": "traditional",
+  "additionalContext": "Authentic Japanese tonkotsu with rich, creamy pork bone broth. Include detailed broth-building technique and traditional toppings."
+}

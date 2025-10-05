@@ -1,0 +1,42 @@
+{
+  "defaultModel": "gemini-2.5-flash",
+  "agents": {
+    "sous_chef_planning": "gemini-2.5-flash",
+    "sous_chef_synthesis": "gemini-2.5-flash",
+    "boulanger": "gemini-2.5-flash",
+    "rotisseur": "gemini-2.5-flash",
+    "garde_manger": "gemini-2.5-flash",
+    "patissier": "gemini-2.5-flash",
+    "asador": "gemini-2.5-flash",
+    "orientateur": "gemini-2.5-flash",
+    "epicier": "gemini-2.5-flash"
+  },
+  "temperatures": {
+    "sous_chef_planning": 0.3,
+    "sous_chef_synthesis": 0.5,
+    "boulanger": 0.35,
+    "patissier": 0.4,
+    "rotisseur": 0.55,
+    "garde_manger": 0.6,
+    "asador": 0.75,
+    "orientateur": 0.7,
+    "epicier": 0.7
+  },
+  "temperatureRationale": {
+    "precision_specialists": {
+      "agents": ["boulanger", "patissier"],
+      "temp_range": "0.35-0.4",
+      "reason": "Science-based: precise percentages, fermentation chemistry, tempering techniques"
+    },
+    "technique_specialists": {
+      "agents": ["rotisseur", "garde_manger"],
+      "temp_range": "0.55-0.6",
+      "reason": "Classical technique with some stylistic variation: roasting, sauces, composition"
+    },
+    "creative_specialists": {
+      "agents": ["asador", "orientateur", "epicier"],
+      "temp_range": "0.7-0.75",
+      "reason": "Flavor-forward and creative: fire intuition, fusion possibilities, bold spice combinations"
+    }
+  }
+}
